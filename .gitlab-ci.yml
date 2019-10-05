@@ -12,7 +12,7 @@ deploy:
   only:
     - demo
  script:
- - echo 'what'
+   - echo 'what'
   #  - chmod 600 .deploy/prep_staging_key_pair.pem
   #  - apk update && apk upgrade
   #  - apk add git openssh bash
