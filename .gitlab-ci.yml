@@ -10,7 +10,7 @@
 deploy:
   stage: deploy
   only:
-    - release/staging
+    - demo
 #  script:
 #    - chmod 600 .deploy/prep_staging_key_pair.pem
 #    - apk update && apk upgrade
