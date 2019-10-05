@@ -7,10 +7,10 @@
 #    - npm install
 #    - npm test
 
-deploy:
-  stage: deploy
-  only:
-    - demo
+# deploy:
+#   stage: deploy
+#   only:
+#     - demo
 #  script:
 #    - chmod 600 .deploy/prep_staging_key_pair.pem
 #    - apk update && apk upgrade
