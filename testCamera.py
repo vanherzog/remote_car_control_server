@@ -4,6 +4,7 @@ import io
 
 class TestCamera:
 	def __init__(self):
+		print('hi')
 		self.camera = PiCamera()
 
 	def capture(self):
