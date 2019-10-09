@@ -1,6 +1,8 @@
 from flask import Flask, request, Response, render_template, send_from_directory
 from flask_restful import Resource, Api
-from subprocess import call
+from subprocess import call, check_output
+from threading import Thread
+import os
 
 app = Flask(__name__)
 api = Api(app)
@@ -15,26 +17,20 @@ def index():
 def test():
   return render_template("test.html")
 
-class TodoSimple(Resource):
-    def get(self, todo_id):
-        return 'what'
-
-    def put(self, todo_id):
-        todos[todo_id] = request.form['data']
-        return {todo_id: todos[todo_id]}
-
-class SimpleTest(Resource):
-  def put(self, message):
-    return message
+class Control(Resource):
+  def put(self, command):
+    return(command)
 
 class InitCamera(Resource):
-    def put(self):
-        call(['python3', 'camera.py'])
-        return 'Camera Initialized'
+  def put(self):
+    if (os.system('service camerastream status') == 0):
+      call(['sudo', '/bin/systemctl', 'stop', 'camerastream.service'])
+    else:
+      call(['sudo', '/bin/systemctl', 'start', 'camerastream.service'])
+    return(os.system('service camerastream status'))
 
-api.add_resource(TodoSimple, '/<string:todo_id>')
+api.add_resource(Control, '/control/<string:command>')
 api.add_resource(InitCamera, '/camera')
-api.add_resource(SimpleTest, '/simpletest/<string:message>')
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0',debug=True)
