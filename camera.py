@@ -38,46 +38,46 @@ HFLIP = False
 ###########################################
 
 
-class StreamingHttpHandler(BaseHTTPRequestHandler):
-    def do_HEAD(self):
-        self.do_GET()
+# class StreamingHttpHandler(BaseHTTPRequestHandler):
+#     def do_HEAD(self):
+#         self.do_GET()
 
-    def do_GET(self):
-        if self.path == '/':
-            self.send_response(301)
-            self.send_header('Location', '/index.html')
-            self.end_headers()
-            return
-        elif self.path == '/jsmpg.js':
-            content_type = 'application/javascript'
-            content = self.server.jsmpg_content
-        elif self.path == '/index.html':
-            content_type = 'text/html; charset=utf-8'
-            tpl = Template(self.server.index_template)
-            content = tpl.safe_substitute(dict(
-                WS_PORT=WS_PORT, WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR,
-                BGCOLOR=BGCOLOR))
-        else:
-            self.send_error(404, 'File not found')
-            return
-        content = content.encode('utf-8')
-        self.send_response(200)
-        self.send_header('Content-Type', content_type)
-        self.send_header('Content-Length', len(content))
-        self.send_header('Last-Modified', self.date_time_string(time()))
-        self.end_headers()
-        if self.command == 'GET':
-            self.wfile.write(content)
+#     def do_GET(self):
+#         if self.path == '/':
+#             self.send_response(301)
+#             self.send_header('Location', '/index.html')
+#             self.end_headers()
+#             return
+#         elif self.path == '/jsmpg.js':
+#             content_type = 'application/javascript'
+#             content = self.server.jsmpg_content
+#         elif self.path == '/index.html':
+#             content_type = 'text/html; charset=utf-8'
+#             tpl = Template(self.server.index_template)
+#             content = tpl.safe_substitute(dict(
+#                 WS_PORT=WS_PORT, WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR,
+#                 BGCOLOR=BGCOLOR))
+#         else:
+#             self.send_error(404, 'File not found')
+#             return
+#         content = content.encode('utf-8')
+#         self.send_response(200)
+#         self.send_header('Content-Type', content_type)
+#         self.send_header('Content-Length', len(content))
+#         self.send_header('Last-Modified', self.date_time_string(time()))
+#         self.end_headers()
+#         if self.command == 'GET':
+#             self.wfile.write(content)
 
 
-class StreamingHttpServer(HTTPServer):
-    def __init__(self):
-        super(StreamingHttpServer, self).__init__(
-                ('', HTTP_PORT), StreamingHttpHandler)
-        with io.open('index.html', 'r') as f:
-            self.index_template = f.read()
-        with io.open('jsmpg.js', 'r') as f:
-            self.jsmpg_content = f.read()
+# class StreamingHttpServer(HTTPServer):
+#     def __init__(self):
+#         super(StreamingHttpServer, self).__init__(
+#                 ('', HTTP_PORT), StreamingHttpHandler)
+#         with io.open('index.html', 'r') as f:
+#             self.index_template = f.read()
+#         with io.open('jsmpg.js', 'r') as f:
+#             self.jsmpg_content = f.read()
 
 
 class StreamingWebSocket(WebSocket):
@@ -147,8 +147,8 @@ def main():
         websocket_server.initialize_websockets_manager()
         websocket_thread = Thread(target=websocket_server.serve_forever)
         print('Initializing HTTP server on port %d' % HTTP_PORT)
-        http_server = StreamingHttpServer()
-        http_thread = Thread(target=http_server.serve_forever)
+        # http_server = StreamingHttpServer()
+        # http_thread = Thread(target=http_server.serve_forever)
         print('Initializing broadcast thread')
         output = BroadcastOutput(camera)
         broadcast_thread = BroadcastThread(output.converter, websocket_server)
@@ -157,8 +157,8 @@ def main():
         try:
             print('Starting websockets thread')
             websocket_thread.start()
-            print('Starting HTTP server thread')
-            http_thread.start()
+            # print('Starting HTTP server thread')
+            # http_thread.start()
             print('Starting broadcast thread')
             broadcast_thread.start()
             while True:
