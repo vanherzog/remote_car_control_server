@@ -34,7 +34,7 @@ class InitCamera(Resource):
 
 api.add_resource(TodoSimple, '/<string:todo_id>')
 api.add_resource(InitCamera, '/camera')
-api.add_resource(SimpleTest, '/simpletest')
+api.add_resource(SimpleTest, '/simpletest/<string:message>')
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0',debug=True)
