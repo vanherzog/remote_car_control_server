@@ -1,5 +1,5 @@
 from flask import Flask, request, Response, render_template, send_from_directory
-from camera import Camera
+import camera
 
 app = Flask(__name__)
 
