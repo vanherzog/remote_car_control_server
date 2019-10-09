@@ -23,6 +23,10 @@ class TodoSimple(Resource):
         todos[todo_id] = request.form['data']
         return {todo_id: todos[todo_id]}
 
+class SimpleTest(Resource):
+  def put(self, message):
+    return message
+
 class InitCamera(Resource):
     def put(self):
         call(['python3', 'camera.py'])
@@ -30,6 +34,7 @@ class InitCamera(Resource):
 
 api.add_resource(TodoSimple, '/<string:todo_id>')
 api.add_resource(InitCamera, '/camera')
+api.add_resource(SimpleTest, '/simpletest')
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0',debug=True)
