@@ -1,5 +1,5 @@
 from flask import Flask, request, Response, render_template, send_from_directory
-import camera
+from subprocess import call
 
 app = Flask(__name__)
 
@@ -21,6 +21,8 @@ def test():
 def stream():
     return Response(gen(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
+call(["python3", "camera.py"])
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0',debug=True)
