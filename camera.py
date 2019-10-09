@@ -26,6 +26,7 @@ from ws4py.server.wsgiutils import WebSocketWSGIApplication
 WIDTH = 1024
 HEIGHT = 576
 FRAMERATE = 30
+# HTTP_PORT = 8082
 WS_PORT = 8084
 COLOR = u'#444'
 BGCOLOR = u'#333'
@@ -145,7 +146,7 @@ def main():
             app=WebSocketWSGIApplication(handler_cls=StreamingWebSocket))
         websocket_server.initialize_websockets_manager()
         websocket_thread = Thread(target=websocket_server.serve_forever)
-        print('Initializing HTTP server on port %d' % HTTP_PORT)
+        # print('Initializing HTTP server on port %d' % HTTP_PORT)
         # http_server = StreamingHttpServer()
         # http_thread = Thread(target=http_server.serve_forever)
         print('Initializing broadcast thread')
