@@ -29,7 +29,7 @@ class InitCamera(Resource):
         return 'Camera Initialized'
 
 api.add_resource(TodoSimple, '/<string:todo_id>')
-api.add_resource(InitCamera, '/test/<string:message>')
+api.add_resource(InitCamera, '/camera')
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0',debug=True)
