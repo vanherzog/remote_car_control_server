@@ -1,0 +1,19 @@
+<title>Flask-SocketIO Test</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.4/socket.io.min.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+  const socket = io.connect('http://192.168.1.16:5000')
+  socket.on('connect', () => {
+    socket.send('connected')
+  })
+  socket.on('message', (msg) => console.log(msg))
+
+  const test = () => {
+    socket.send('test')
+  }
+</script>
+
+<button onClick="test()">Test</button>
