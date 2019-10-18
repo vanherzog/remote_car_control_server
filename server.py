@@ -21,12 +21,19 @@ todos = {}
 
 @socketio.on('message')
 def handleMessage(message):
-  send(message, broadcast = True)
-  print(message)
+  print('message: ', message)
   
-@socketio.on('close')
+@socketio.on('disconnect')
 def handleClose():
   print('closed')
+  
+@socketio.on('connect')
+def handleClose():
+  print('connected')
+  
+@socketio.on('motion')
+def handleClose(motion):
+  print('Motion: ', motion)
 
 @app.route("/")
 def index():
@@ -54,6 +61,6 @@ api.add_resource(InitCamera, '/camera')
 # t.start()
 
 if __name__ == "__main__":
-  app.run(host='192.168.1.16',debug=True)
+  app.run(host='192.168.1.4')
   socketio.run(app)
   
