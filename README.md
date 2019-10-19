@@ -14,6 +14,7 @@
     - Step 2: Create a new Service instance using `nano /etc/systemd/system/server.service`
     - Step 3: Copy this code to the Service, replace `home/pi/remote-control-car/server.py` with your actual directory.
         `
+            
             Description=Server Service
             After=network.target
             
