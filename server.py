@@ -4,6 +4,8 @@ from flask_socketio import SocketIO, send
 from subprocess import call, check_output
 from threading import Thread
 import os
+import socket
+ip = (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) + ["no IP found"])[0]
 
 app = Flask(__name__)
 api = Api(app)
@@ -57,10 +59,8 @@ class InitCamera(Resource):
 
 api.add_resource(Control, '/control/<string:command>')
 api.add_resource(InitCamera, '/camera')
-# t = Thread(target=listen)
-# t.start()
 
 if __name__ == "__main__":
-  app.run(host='192.168.1.4')
+  app.run(host=ip)
   socketio.run(app)
   
