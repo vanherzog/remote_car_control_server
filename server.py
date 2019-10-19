@@ -41,24 +41,30 @@ def handleClose(motion):
 def index():
   return render_template("index.html")
 
-@app.route("/test")
-def test():
-  return render_template("test.html")
+#@app.route("/test")
+#def test():
+#  return render_template("test.html")
 
 class Control(Resource):
   def put(self, command):
     return(command)
 
+class terminate(Resource):
+  def put(self):
+    call(['sudo', 'systemctl', 'stop', 'server'])
+
 class InitCamera(Resource):
   def put(self):
-    if (os.system('service camerastream status') == 0):
-      call(['sudo', '/bin/systemctl', 'stop', 'camerastream.service'])
+    if (os.system('service camera status') == 0):
+      call(['sudo', 'sytemctl', 'start', 'camera'])
     else:
-      call(['sudo', '/bin/systemctl', 'start', 'camerastream.service'])
+      call(['sudo', 'systemctl', 'stop', 'camera'])
     return(os.system('service camerastream status'))
 
 api.add_resource(Control, '/control/<string:command>')
 api.add_resource(InitCamera, '/camera')
+api.add_resource(terminate, '/terminate')
+
 
 if __name__ == "__main__":
   app.run(host=ip)
