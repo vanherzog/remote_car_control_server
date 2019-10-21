@@ -30,11 +30,11 @@ def handleClose():
   print('closed')
   
 @socketio.on('connect')
-def handleClose():
+def handleConnect():
   print('connected')
   
 @socketio.on('motion')
-def handleClose(motion):
+def handleMotion(motion):
   print('Motion: ', motion)
 
 @app.route("/")
@@ -64,7 +64,6 @@ class InitCamera(Resource):
 api.add_resource(Control, '/control/<string:command>')
 api.add_resource(InitCamera, '/camera')
 api.add_resource(terminate, '/terminate')
-
 
 if __name__ == "__main__":
   app.run(host=ip)
