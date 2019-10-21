@@ -56,10 +56,10 @@ class terminate(Resource):
 class InitCamera(Resource):
   def put(self):
     if (os.system('service camera status') == 0):
-      call(['sudo', 'sytemctl', 'start', 'camera'])
-    else:
       call(['sudo', 'systemctl', 'stop', 'camera'])
-    return(os.system('service camerastream status'))
+    else:
+      call(['sudo', 'systemctl', 'start', 'camera'])
+    return(os.system('service camera status'))
 
 api.add_resource(Control, '/control/<string:command>')
 api.add_resource(InitCamera, '/camera')
