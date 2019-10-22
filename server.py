@@ -5,6 +5,7 @@ from subprocess import call, check_output
 from threading import Thread
 import os
 import socket
+import control
 ip = (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) + ["no IP found"])[0]
 
 app = Flask(__name__)
@@ -20,10 +21,11 @@ todos = {}
 #   global socketio
 #   socketio.emit('resp', message)
 #   print('message')
-print("hello world")
+
 @socketio.on('message')
 def handleMessage(message):
-  print('message: ')
+  
+  print('message: '+ message)
   
 @socketio.on('disconnect')
 def handleClose():
@@ -66,6 +68,6 @@ api.add_resource(InitCamera, '/camera')
 api.add_resource(terminate, '/terminate')
 
 if __name__ == "__main__":
-  app.run(host=ip)
+  app.run(host=ip, debug=True)
   socketio.run(app)
   
