@@ -50,7 +50,7 @@ def handleConnection():
   global connected, controller, thread
   controller.Setup()
   connected = True
-  thread.start()  
+  thread.start()
   print('connected')
   
 @socketio.on('motion')

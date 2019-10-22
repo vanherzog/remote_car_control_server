@@ -10,10 +10,6 @@ import time
 class Controller:
 	#wiring scheme needs to be clearer
 	def __init__(self):
-		self.l = GPIO.PWM(en1, 100)
-		self.r = GPIO.PWM(en2, 100)
-		self.l.start(0)
-		self.r.start(0)
 		self.int1 = 7
 		self.int2 = 11
 		self.int3 = 13
@@ -32,6 +28,10 @@ class Controller:
 		GPIO.setup(self.int4,GPIO.OUT)
 		GPIO.setup(self.en1,GPIO.OUT)
 		GPIO.setup(self.en2,GPIO.OUT)
+		self.l = GPIO.PWM(en1, 100)
+		self.r = GPIO.PWM(en2, 100)
+		self.l.start(0)
+		self.r.start(0)
 
 	# Setup()
 	
