@@ -39,8 +39,10 @@ def handleClose():
   
 @socketio.on('connected')
 def handleCloseConnection():
-  global connected
+  global connected, controller
+  controller.Setup()
   connected = True
+  thread.start()  
   print('connected')
   
 @socketio.on('motion')
@@ -75,6 +77,7 @@ def control():
   global connected, x, y, controller
   while connected:
     controller.set(x, y)
+  controller.CleanUp()
 
 thread = Thread(target=control)
 
@@ -85,5 +88,4 @@ api.add_resource(terminate, '/terminate')
 if __name__ == "__main__":
   app.run(host=ip, debug=True)
   socketio.run(app)
-  thread.start()
   
