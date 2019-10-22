@@ -11,7 +11,7 @@ app = Flask(__name__)
 api = Api(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 todos = {}
-
+# test commit and push
 # def listen():
 #   global socketio
 #   socketio.on('message', handleControl)
@@ -20,22 +20,22 @@ todos = {}
 #   global socketio
 #   socketio.emit('resp', message)
 #   print('message')
-
+print("hello world")
 @socketio.on('message')
 def handleMessage(message):
-  print('message: ', message)
+  print('message: ')
   
 @socketio.on('disconnect')
 def handleClose():
   print('closed')
   
-@socketio.on('connect')
-def handleConnect():
+@socketio.on('connected')
+def handleCloseConnection():
   print('connected')
   
 @socketio.on('motion')
-def handleMotion(motion):
-  print('Motion: ', motion)
+def handleCloseMotion(motion):
+  print('Motion1: ')
 
 @app.route("/")
 def index():
