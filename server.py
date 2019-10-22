@@ -26,6 +26,14 @@ y = 0
 #   socketio.emit('resp', message)
 #   print('message')
 
+def control():
+  global connected, x, y, controller
+  while connected:
+    controller.set(x, y)
+  controller.CleanUp()
+
+thread = Thread(target=control, daemon=True)
+
 @socketio.on('message')
 def handleMessage(message):
   global x, y
@@ -38,8 +46,8 @@ def handleClose():
   print('closed')
   
 @socketio.on('connected')
-def handleCloseConnection():
-  global connected, controller
+def handleConnection():
+  global connected, controller, thread
   controller.Setup()
   connected = True
   thread.start()  
@@ -73,14 +81,6 @@ class InitCamera(Resource):
       call(['sudo', 'systemctl', 'start', 'camera'])
     return(os.system('service camera status'))
   
-def control():
-  global connected, x, y, controller
-  while connected:
-    controller.set(x, y)
-  controller.CleanUp()
-
-thread = Thread(target=control)
-
 api.add_resource(Control, '/control/<string:command>')
 api.add_resource(InitCamera, '/camera')
 api.add_resource(terminate, '/terminate')
