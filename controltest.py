@@ -97,15 +97,12 @@ def Control(x, y):
 
 val1 = int(sys.argv[1])
 val2 = int(sys.argv[2])
-while True:
-    print("here")
-    while val1 != 0 or val2 != 0:
-        Control(val1, val2)
-        time.sleep(2)
-        print(val1)
-        break
+while val1 != 0 or val2 != 0:
+    Control(val1, val2)
+    time.sleep(2)
+    break
 
-	GPIO.cleanup()
-	Setup()
+GPIO.cleanup()
+Setup()
 		
 		
