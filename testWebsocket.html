@@ -7,12 +7,12 @@
 <script type="text/javascript" charset="utf-8">
   const socket = io.connect('http://192.168.1.8:5000')
   socket.on('connect', () => {
-    socket.send('connected')
+    socket.send('0,0')
   })
   socket.on('message', (msg) => console.log(msg))
 
   const test = () => {
-    socket.emit('message', 'test')
+    socket.emit('message', '2,-3')
   }
 </script>
 
