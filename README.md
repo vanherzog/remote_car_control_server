@@ -13,47 +13,46 @@
 
 2. RUNNING IT:
 
-`
-    pip3 install flask flask_restful flask_socketio
-    python3 server.py
-`
+
+    
+>  pip3 install flask flask_restful flask_socketio
+>  python3 server.py
+
 
 3. ADVANCED:
 - On the Raspberry Pi, we made some service in order to run the server right after boot.
 - You can setup the same service by:
     1. Getting to the sudo environment using `sudo -i`.
     2. Create a new Server Service instance using `nano /etc/systemd/system/server.service`. Copy this code to the Service, replace `home/pi/remote-control-car/server.py` with your actual directory.
-        `
-            [Unit]
-            Description=Server Service
-            After=network.target
-            
-            [Service]
-            Type=simple
-            Restart=always
-            RestartSec=1
-            User=pi
-            ExecStart=/usr/bin/python3 /home/pi/remote-control-car/server.py
-            
-            [Install]
-            WantedBy=multi-user.target
-        `
+>             [Unit]
+>             Description=Server Service
+>             After=network.target
+>             
+>             [Service]
+>             Type=simple
+>             Restart=always
+>             RestartSec=1
+>             User=pi
+>             ExecStart=/usr/bin/python3 /home/pi/remote-control-car/server.py
+>             
+>             [Install]
+>             WantedBy=multi-user.target
+
     3. Create a new Camera Service instance using `nano /etc/systemd/system/camera.service`. Copy this code to the Service, replace `home/pi/remote-control-car/camera.py` with your actual directory.
-        `
-            [Unit]
-            Description=Camera Service
-            After=network.target
-            
-            [Service]
-            Type=simple
-            Restart=always
-            RestartSec=1
-            User=pi
-            ExecStart=/usr/bin/python3 /home/pi/remote-control-car/camera.py
-            
-            [Install]
-            WantedBy=multi-user.target
-        `
+            > [Unit]
+>             Description=Camera Service
+>             After=network.target
+>             
+>             [Service]
+>             Type=simple
+>             Restart=always
+>             RestartSec=1
+>             User=pi
+>             ExecStart=/usr/bin/python3 /home/pi/remote-control-car/camera.py
+>             
+>             [Install]
+>             WantedBy=multi-user.target
+
     4. Reload Daemon using `systemctl daemon-reload` and enable Service on boot with `systemctl enable server`
     5. Reboot with `sudo reboot -h now` to check.
 
