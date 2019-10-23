@@ -40,6 +40,8 @@ def handleMessage(message):
   token = message.split(',')
   x = int(token[0])
   y = int(token[1])
+  print(x, y)
+  return message
   
 @socketio.on('disconnect')
 def handleClose():
