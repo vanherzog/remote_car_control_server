@@ -58,7 +58,6 @@
             WantedBy=multi-user.target
             ```
 
-
     4. Reload Daemon using `systemctl daemon-reload` and enable Service on boot with `systemctl enable server`
     5. Reboot with `sudo reboot -h now` to check.
 
