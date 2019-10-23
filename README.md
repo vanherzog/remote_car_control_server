@@ -24,6 +24,7 @@
     1. Getting to the sudo environment using `sudo -i`.
     2. Create a new Server Service instance using `nano /etc/systemd/system/server.service`. Copy this code to the Service, replace `home/pi/remote-control-car/server.py` with your actual directory.
         `
+            [Unit]
             Description=Server Service
             After=network.target
             
@@ -39,6 +40,7 @@
         `
     3. Create a new Camera Service instance using `nano /etc/systemd/system/camera.service`. Copy this code to the Service, replace `home/pi/remote-control-car/camera.py` with your actual directory.
         `
+            [Unit]
             Description=Camera Service
             After=network.target
             
