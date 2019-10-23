@@ -39,9 +39,8 @@
             [Install]
             WantedBy=multi-user.target
             
-            
     3. Create a new Camera Service instance using `nano /etc/systemd/system/camera.service`. Copy this code to the Service, replace `home/pi/remote-control-car/camera.py` with your actual directory.
-            ```
+            
             [Unit]
             Description=Camera Service
             After=network.target
@@ -55,8 +54,7 @@
          
             [Install]
             WantedBy=multi-user.target
-            ```
-
+            
     4. Reload Daemon using `systemctl daemon-reload` and enable Service on boot with `systemctl enable server`
     5. Reboot with `sudo reboot -h now` to check.
 
