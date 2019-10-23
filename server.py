@@ -41,10 +41,13 @@ def handleMessage(message):
   x = int(token[0])
   y = int(token[1])
   print(x, y)
-  return message
-  
+  send(message)
+
 @socketio.on('disconnect')
 def handleClose():
+  global connected
+  connected = False
+  send('closed')
   print('closed')
   
 @socketio.on('connected')
@@ -53,7 +56,8 @@ def handleConnection():
   controller.Setup()
   connected = True
   thread.start()
-  print('connected')
+  send('connected')
+  print('closed')
   
 @socketio.on('motion')
 def handleCloseMotion(motion):
