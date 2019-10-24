@@ -31,7 +31,7 @@ COLOR = u'#444'
 BGCOLOR = u'#333'
 JSMPEG_MAGIC = b'jsmp'
 JSMPEG_HEADER = Struct('>4sHH')
-VFLIP = False
+VFLIP = True
 HFLIP = False
 
 ###########################################

@@ -3,19 +3,21 @@ from flask_restful import Resource, Api
 from flask_socketio import SocketIO, send
 from subprocess import call, check_output
 from threading import Thread
+#import threading
 import os
 import socket
 from control import Controller
-
+from time import sleep
 ip = (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) + ["no IP found"])[0]
 
 app = Flask(__name__)
 api = Api(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 controller = Controller()
-connected = False
+#connected = False
 x = 0
 y = 0
+connectedCount=0
 # test commit and push
 # def listen():
 #   global socketio
@@ -25,40 +27,79 @@ y = 0
 #   global socketio
 #   socketio.emit('resp', message)
 #   print('message')
+controller.Setup()
+
 
 def control():
+  print("is here")
   global connected, x, y, controller
-  while connected:
+  while True:
+    #print("in loop")
     controller.set(x, y)
-  controller.CleanUp()
+    sleep(0.02)
+  #controller.CleanUp()
 
-thread = Thread(target=control, daemon=True)
+thread = Thread(target=control)
+
 
 @socketio.on('message')
 def handleMessage(message):
+  #global connectedCount
   global x, y
-  token = message.split(',')
-  x = int(token[0])
-  y = int(token[1])
+  #print("12"+message)
+  #if message == "connected" and connectedCount == 0:
+   # print("do something")
+    #controller.Setup()
+    #connected = True
+    
+    #thread.start()
+    #connectedCount+=1
+  if "," in message:
+    token = message.split(',')
+    x = int(token[0])
+    y = int(token[1])
   print(x, y)
-  send(message)
+  #send(message)
+  
 
 @socketio.on('disconnect')
 def handleClose():
-  global connected
-  connected = False
+  global x, y
+  #onnectedCount=0
+  #connected = False
+  x =0
+  y =0
   send('closed')
-  print('closed')
-  
-@socketio.on('connected')
+  print('closed disconnected')
+ 
+@socketio.on('connect')
 def handleConnection():
-  global connected, controller, thread
-  controller.Setup()
-  connected = True
-  thread.start()
+  #print("hey")
+  global connectedCount
+  #print(connectedCount)
+  print("site connected")
+  #global connected, controller, thread 
+  #controller.Setup()
+  #connected = True
+  if connectedCount == 0:
+    thread.start()
+    connectedCount+=1
   send('connected')
   print('closed')
-  
+'''  
+@socketio.on('connect')
+def handleConnection():
+  global connectedCount
+  connectedCount+=1
+  if connectedCount == 1:
+    print("site connected")
+    global connected, controller, thread 
+    controller.Setup()
+    connected = True
+    thread.start()
+  send('connected')
+  print('closed')
+  '''
 @socketio.on('motion')
 def handleCloseMotion(motion):
   print('Motion1: ')
@@ -94,4 +135,5 @@ api.add_resource(terminate, '/terminate')
 if __name__ == "__main__":
   app.run(host=ip, debug=True)
   socketio.run(app)
+  
   

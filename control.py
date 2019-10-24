@@ -1,28 +1,32 @@
 import RPi.GPIO  as GPIO
 import time
 
-#int1 - 7: forward right
-#int2 - 11: backward right
-#int3 - 13: forward left
-#int4 - 15: backward left
-
+#int1 -  7(GPIO4) : forward right
+#int2 - 11(GPIO17): backward right
+#int3 - 13(GPIO27): forward left
+#int4 - 15(GPIO22): backward left
 
 class Controller:
-	#wiring scheme needs to be clearer
+	
 	def __init__(self):
+		print("hello world")
 		self.int1 = 7
 		self.int2 = 11
 		self.int3 = 13
 		self.int4 = 15
 		self.en1 = 16
 		self.en2= 18
+		self.x =0
+		self.y =0
+
+
 		self.l=0
 		self.r=0
 		GPIO.setmode(GPIO.BOARD)
 		GPIO.setup(self.en1,GPIO.OUT)
 		GPIO.setup(self.en2,GPIO.OUT)
-		self.l = GPIO.PWM(self.en1, 100)
-		self.r = GPIO.PWM(self.en2, 100)
+		self.l = GPIO.PWM(self.en1, 300)
+		self.r = GPIO.PWM(self.en2, 300)
 		self.l.start(0)
 		self.r.start(0)
 		# self.Setup();
@@ -76,32 +80,42 @@ class Controller:
 	def X_axis(self):
 		if self.x < 0:
 			self.x = -self.x
-			self.l.ChangeDutyCycle(self.x*10)
-			self.Turnright()
+			if self.x == 1:
+				self.l.ChangeDutyCycle(self.x*35)
+				self.r.ChangeDutyCycle(self.x*20)
+				self.Forward()
+			if self.x == 2:
+				self.l.ChangeDutyCycle(self.x*10)
+				self.Turnright()
 			print ("turning left")
 		else:
-			self.r.ChangeDutyCycle(self.x*10)
-			self.Turnleft()
+			if self.x == 1:
+				self.r.ChangeDutyCycle(self.x*35)
+				self.l.ChangeDutyCycle(self.x*20)
+				self.Forward()
+			if self.x == 2:
+				self.r.ChangeDutyCycle(self.x*10)
+				self.Turnleft()
 			print ("turning right")
 			
 	def Y_axis(self):
 		if self.y < 0:
 			self.y = -self.y
-			self.l.ChangeDutyCycle(self.y*20)
-			self.r.ChangeDutyCycle(self.y*20)
+			self.l.ChangeDutyCycle(self.y*30)
+			self.r.ChangeDutyCycle(self.y*30)
 			self.Backward()
 			print ("go back")
 		else:
-			self.l.ChangeDutyCycle(self.y*20)
-			self.r.ChangeDutyCycle(self.y*20)
+			self.l.ChangeDutyCycle(self.y*30)
+			self.r.ChangeDutyCycle(self.y*30)
 			self.Forward()
 			print ("go forth")
 			
 	def Control(self):
 		if self.x != 0:
-			self.X_axis(x)
+			self.X_axis()
 		else:
-			self.Y_axis(y)
+			self.Y_axis()
   
 	def set(self, x, y):
 		self.x = x
@@ -109,6 +123,7 @@ class Controller:
 		self.Control()
    
 	def CleanUp(self):
+		print("clean Up")
 		GPIO.cleanup()
 
 
