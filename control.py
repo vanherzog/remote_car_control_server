@@ -25,8 +25,8 @@ class Controller:
 		GPIO.setmode(GPIO.BOARD)
 		GPIO.setup(self.en1,GPIO.OUT)
 		GPIO.setup(self.en2,GPIO.OUT)
-		self.l = GPIO.PWM(self.en1, 300)
-		self.r = GPIO.PWM(self.en2, 300)
+		self.l = GPIO.PWM(self.en1, 600)
+		self.r = GPIO.PWM(self.en2, 600)
 		self.l.start(0)
 		self.r.start(0)
 		# self.Setup();
@@ -82,32 +82,38 @@ class Controller:
 			self.x = -self.x
 			if self.x == 1:
 				self.l.ChangeDutyCycle(self.x*35)
-				self.r.ChangeDutyCycle(self.x*20)
+				self.r.ChangeDutyCycle(self.x*12)
 				self.Forward()
 			if self.x == 2:
-				self.l.ChangeDutyCycle(self.x*10)
+				self.l.ChangeDutyCycle(self.x*23)
 				self.Turnright()
 			print ("turning left")
 		else:
 			if self.x == 1:
 				self.r.ChangeDutyCycle(self.x*35)
-				self.l.ChangeDutyCycle(self.x*20)
+				self.l.ChangeDutyCycle(self.x*12)
 				self.Forward()
 			if self.x == 2:
-				self.r.ChangeDutyCycle(self.x*10)
+				self.r.ChangeDutyCycle(self.x*23)
 				self.Turnleft()
 			print ("turning right")
 			
 	def Y_axis(self):
 		if self.y < 0:
 			self.y = -self.y
-			self.l.ChangeDutyCycle(self.y*30)
-			self.r.ChangeDutyCycle(self.y*30)
+			if self.y <3:
+				self.l.ChangeDutyCycle(self.y*30)
+				self.r.ChangeDutyCycle(self.y*30)
+			if self.y == 3:
+				self.l.ChangeDutyCycle(self.y*33)
 			self.Backward()
 			print ("go back")
 		else:
-			self.l.ChangeDutyCycle(self.y*30)
-			self.r.ChangeDutyCycle(self.y*30)
+			if self.y <3:
+				self.l.ChangeDutyCycle(self.y*30)
+				self.r.ChangeDutyCycle(self.y*30)
+			if self.y == 3:
+				self.l.ChangeDutyCycle(self.y*33)
 			self.Forward()
 			print ("go forth")
 			

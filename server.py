@@ -36,7 +36,7 @@ def control():
   while True:
     #print("in loop")
     controller.set(x, y)
-    sleep(0.02)
+    sleep(0.01)
   #controller.CleanUp()
 
 thread = Thread(target=control)
