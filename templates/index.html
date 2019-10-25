@@ -21,6 +21,21 @@
 			position: absolute;
 			right: 5%;
 			top: 5%;
+			padding: 12px;
+			font-size: 14px;
+			color: #006ce6;
+			background-color: #eef7ff;
+			border-radius: 4px;
+			box-shadow: none;
+			border: none;
+			transition: background-color 0.5s;
+			transition: color 0.5s;
+			font-weight: 600;
+		}
+
+		#camera:hover {
+			color: white;
+			background-color: #006ce6;
 		}
  	</style>
  </head>
@@ -44,23 +59,35 @@
 	<script type="text/javascript">
 		const ip = '192.168.1.8';
  		// Show loading notice
- 		let canvas = document.getElementById('videoCanvas');
- 		let ctx = canvas.getContext('2d');
+ 		const canvas = document.getElementById('videoCanvas');
+ 		const ctx = canvas.getContext('2d');
  		ctx.fillStyle = '${COLOR}';
  		ctx.fillText('Loading...', canvas.width / 2 - 30, canvas.height / 3);
 
  		// Setup the WebSocket connection and start the player
- 		// let client = new WebSocket('ws://' + window.location.hostname + ':${WS_PORT}/');
- 		let client = new WebSocket(`ws://${ip}:5001`);
- 		let player = new jsmpeg(client, {
- 			canvas: canvas
- 		});
-		const httpRequest = new XMLHttpRequest();
+		const setup = () => {
+			//const client = new WebSocket('ws://' + window.location.hostname + ':${WS_PORT}/');
+			const client = new WebSocket(`ws://${ip}:5001`);
+			const player = new jsmpeg(client, {
+				canvas: canvas
+			});
+			const httpRequest = new XMLHttpRequest();
+		}
+ 		
 		
 		const toggleCamera = () => {
 			httpRequest.open('PUT', `http://${ip}:5000/camera`);
+			// httpRequest.open("GET", "https://randomuser.me/api/", true)
+			httpRequest.onreadystatechange = ({target}) => {
+				if (target.readyState === 4 && target.status === 200) {
+					// location.reload();
+					setup();
+				}
+			};
 			httpRequest.send();
 		}
+
+		setup();
 
  	</script>
  </body>
