@@ -66,7 +66,6 @@
 
  		// Setup the WebSocket connection and start the player
 		const setup = () => {
-			//const client = new WebSocket('ws://' + window.location.hostname + ':${WS_PORT}/');
 			const client = new WebSocket(`ws://${ip}:5001`);
 			const player = new jsmpeg(client, {
 				canvas: canvas
@@ -77,7 +76,6 @@
 		
 		const toggleCamera = () => {
 			httpRequest.open('PUT', `http://${ip}:5000/camera`);
-			// httpRequest.open("GET", "https://randomuser.me/api/", true)
 			httpRequest.onreadystatechange = ({target}) => {
 				if (target.readyState === 4 && target.status === 200) {
 					// location.reload();

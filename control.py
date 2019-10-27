@@ -1,11 +1,6 @@
 import RPi.GPIO  as GPIO
 import time
 
-#int1 -  7(GPIO4) : forward right
-#int2 - 11(GPIO17): backward right
-#int3 - 13(GPIO27): forward left
-#int4 - 15(GPIO22): backward left
-
 class Controller:
 	
 	def __init__(self):
@@ -37,13 +32,6 @@ class Controller:
 		GPIO.setup(self.int3,GPIO.OUT)
 		GPIO.setup(self.int4,GPIO.OUT)
 		
-	# Setup()
-	
-	
-	#en1,en2 one is left one is right
-
-	#p = GPIO.PWM(channel, duty cycle)
-
 	def Forward(self):
 		GPIO.output(self.int1, True)
 		GPIO.output(self.int2, False)
@@ -75,8 +63,6 @@ class Controller:
 		GPIO.output(self.int4, False)
 			
 			
-	#-left +right x 
-	#+for -backward y
 	def X_axis(self):
 		if self.x < 0:
 			self.x = -self.x
@@ -131,16 +117,3 @@ class Controller:
 	def CleanUp(self):
 		print("clean Up")
 		GPIO.cleanup()
-
-
-	# while True:
-
-	# 	val1 = input("x_axis: ")
-	# 	val2 = input("y_axis: ")
-	# 	Control(val1, val2)
-	# 	time.sleep(3)
-		
-	# 	GPIO.cleanup()
-	# 	Setup()
-			
-			
