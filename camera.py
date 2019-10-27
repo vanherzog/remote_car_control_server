@@ -122,12 +122,8 @@ def main():
             camera.stop_recording()
             print('Waiting for broadcast thread to finish')
             broadcast_thread.join()
-            print('Shutting down HTTP server')
-            http_server.shutdown()
             print('Shutting down websockets server')
             websocket_server.shutdown()
-            print('Waiting for HTTP server thread to finish')
-            http_thread.join()
             print('Waiting for websockets thread to finish')
             websocket_thread.join()
 

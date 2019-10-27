@@ -1,6 +1,6 @@
+
  <!DOCTYPE html>
  <html>
-
  <head>
  	<meta name="viewport" content="width=${WIDTH}, initial-scale=1" />
 	 <title>jsmpeg streaming</title>
@@ -39,12 +39,7 @@
 		}
  	</style>
  </head>
-
  <body>
- 	<!-- The Canvas size specified here is the "initial" internal resolution. jsmpeg will
-		change this internal resolution to whatever the source provides. The size the
-		canvas is displayed on the website is dictated by the CSS style.
-	-->
 	<button id="camera" onClick="toggleCamera()" >Camera</button>
  	<canvas id="videoCanvas" width="${WIDTH}" height="${HEIGHT}">
  		<p>
@@ -58,13 +53,11 @@
  	<script src="{{url_for('static', filename='jsmpeg.js')}}"></script>
 	<script type="text/javascript">
 		const ip = '192.168.1.8';
- 		// Show loading notice
  		const canvas = document.getElementById('videoCanvas');
  		const ctx = canvas.getContext('2d');
  		ctx.fillStyle = '${COLOR}';
  		ctx.fillText('Loading...', canvas.width / 2 - 30, canvas.height / 3);
 
- 		// Setup the WebSocket connection and start the player
 		const setup = () => {
 			const client = new WebSocket(`ws://${ip}:5001`);
 			const player = new jsmpeg(client, {
@@ -72,22 +65,19 @@
 			});
 			const httpRequest = new XMLHttpRequest();
 		}
- 		
-		
 		const toggleCamera = () => {
 			httpRequest.open('PUT', `http://${ip}:5000/camera`);
 			httpRequest.onreadystatechange = ({target}) => {
 				if (target.readyState === 4 && target.status === 200) {
-					// location.reload();
+					location.reload();
 					setup();
 				}
 			};
 			httpRequest.send();
 		}
-
 		setup();
-
  	</script>
+	 
  </body>
-
  </html>
+
